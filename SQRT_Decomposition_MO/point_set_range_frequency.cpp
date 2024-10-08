@@ -1,3 +1,5 @@
+// Problem Link: https://judge.yosupo.jp/problem/point_set_range_frequency
+
 #include <bits/stdc++.h>
 
 using namespace std;
