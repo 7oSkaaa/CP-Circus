@@ -46,16 +46,16 @@ void solve() {
     int SQ = sqrt(n) + 1;
     for (int i = 0; i < n; ++i) {
         cin >> a[i];
+        a[i] += i;
     }
 
     for (int i = n - 1; i >= 0; --i) {
-        int nxt = i + a[i];
-        if (i / SQ != nxt / SQ || nxt >= n) {
+        if (i / SQ != a[i] / SQ || a[i] >= n) {
             c[i] = 1;
-            w[i] = i + a[i];
+            w[i] = i;
         } else {
-            c[i] = c[nxt] + 1;
-            w[i] = w[nxt];
+            c[i] = c[a[i]] + 1;
+            w[i] = w[a[i]];
         }
     }
 
@@ -66,24 +66,23 @@ void solve() {
         if (type == 0) {
             int b;
             cin >> b;
-            a[i] = b;
+            a[i] = b + i;
             int blkNum = i / SQ;
-            for (int j = b; j >= blkNum * SQ; --j) {
-                int nxt = j + a[j];
-                if (j / SQ != nxt / SQ || nxt >= n) {
+            for (int j = i; j >= blkNum * SQ; --j) {
+                if (j / SQ != a[j] / SQ || a[j] >= n) {
                     c[j] = 1;
-                    w[j] = j + a[j];
+                    w[j] = j;
                 } else {
-                    c[j] = c[nxt] + 1;
-                    w[j] = w[nxt];
+                    c[j] = c[a[j]] + 1;
+                    w[j] = w[a[j]];
                 }
             }
         } else {
-            int cnt = 0, who = i, last = i;
-            while (who < n) {
-                cnt += c[who];
-                last = who;
-                who = w[who];
+            int cnt = 0, last = i;
+            while (i < n) {
+                cnt += c[i];
+                last = w[i];
+                i = a[w[i]];
             }
             cout << last + 1 << ' ' << cnt << endl;
         }
